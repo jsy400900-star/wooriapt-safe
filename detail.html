@@ -601,7 +601,6 @@ body.detail-page{
 
 </div>
 
-
 <script>
 
 const pages = {
@@ -667,27 +666,24 @@ contract: `
 종이계약서를 여러 장 작성하고 보관해야 하는 불편을 줄일 수 있습니다.
 </p>
 
-<h2>② 매매 실거래신고 자동 신청</h2>
+<h2>② 매매 실거래신고 및 신고필증</h2>
 <p>
 매매 전자계약이 확정되면
-<b>부동산 실거래신고가 자동으로 신청</b>되고
-신고필증도 자동 발급됩니다.
-별도로 실거래신고를 해야 하는 번거로움을 줄일 수 있습니다.
+<b>부동산에서 실거래신고를 진행하고 신고필증을 발급받습니다.</b>
+별도로 고객이 실거래신고를 해야 하는 번거로움을 줄일 수 있습니다.
 </p>
 
-<h2>③ 전·월세 확정일자·임대차신고 자동 신청</h2>
+<h2>③ 전자계약 진행상태 확인</h2>
 <p>
-주택 임대차 전자계약은
-<b>임대차신고와 확정일자가 자동으로 신청</b>됩니다.
-임차인이 확정일자를 받기 위해 별도로 행정복지센터를 방문하는
-불편을 줄일 수 있습니다.
+전자계약의 진행상태를 확인하여
+계약이 어느 단계까지 진행되었는지 확인할 수 있습니다.
 </p>
 
 <h2>④ 계약서 안전 보관</h2>
 <p>
-완료된 전자계약서는
-<b>공인된 전자문서센터에 보관</b>되어
-계약서를 분실할 걱정을 줄이고 필요할 때 조회·열람할 수 있습니다.
+완료된 전자계약서는 내용을 확인한 후
+<b>프린터해서 보관하세요.</b>
+필요할 때 계약 내용을 다시 확인할 수 있습니다.
 </p>
 
 <h2>⑤ 계약 이후 절차까지 연결</h2>
@@ -756,8 +752,7 @@ escrow: `
 </b>
 </div>
 `,
-
-registry: `
+  registry: `
 <h1>매매 셀프등기 지원</h1>
 
 <p class="intro">
@@ -1231,10 +1226,7 @@ if(topic === "fee"){
     bindMoneyInputs();
 
   }
-
-
-
-  document
+    document
   .querySelectorAll(
     ".calc-tab"
   )
@@ -1493,6 +1485,22 @@ if(topic === "fee"){
       (
         baseFee * 0.5
       ) * 1.1;
+            const buyerBrokerage =
+      0;
+
+
+      const sellerPlatformFee =
+      0;
+
+
+      const buyerTotal =
+      buyerBrokerage +
+      buyerPlatformFee;
+
+
+      const sellerTotal =
+      sellerBrokerage +
+      sellerPlatformFee;
 
 
 
@@ -1517,28 +1525,15 @@ if(topic === "fee"){
         <div class="result-card buyer">
 
           <div class="result-head">
-          👤 ${buyerName} 예상 비용
+          ${buyerName}
           </div>
 
           <div class="result-sub">
-          ${buyerName}은 공인중개사 중개보수 0원
+          공인중개사 중개보수 0원
           </div>
 
+
           <div class="result-body">
-
-            <div class="result-line">
-
-              <div class="result-label">
-              플랫폼 이용료<br>
-              (부가세 포함)
-              </div>
-
-              <div class="result-value main-value">
-              ${money(buyerPlatformFee)}
-              </div>
-
-            </div>
-
 
             <div class="result-line">
 
@@ -1552,18 +1547,30 @@ if(topic === "fee"){
 
             </div>
 
+
+            <div class="result-line">
+
+              <div class="result-label">
+              플랫폼 이용료
+              </div>
+
+              <div class="result-value main-value">
+              ${money(buyerPlatformFee)}
+              </div>
+
+            </div>
+
           </div>
 
 
           <div class="result-total">
 
             <span>
-            총 예상 비용<br>
-            <small>(부가세 포함)</small>
+            예상 총 비용
             </span>
 
             <strong>
-            ${money(buyerPlatformFee)}
+            ${money(buyerTotal)}
             </strong>
 
           </div>
@@ -1575,20 +1582,20 @@ if(topic === "fee"){
         <div class="result-card seller">
 
           <div class="result-head">
-          👤 ${sellerName} 예상 비용
+          ${sellerName}
           </div>
 
           <div class="result-sub">
-          ${sellerName}은 플랫폼 이용료 0원
+          플랫폼 이용료 0원
           </div>
+
 
           <div class="result-body">
 
             <div class="result-line">
 
               <div class="result-label">
-              공인중개사 중개보수<br>
-              (부가세 포함)
+              공인중개사 중개보수
               </div>
 
               <div class="result-value main-value">
@@ -1616,12 +1623,11 @@ if(topic === "fee"){
           <div class="result-total">
 
             <span>
-            총 예상 비용<br>
-            <small>(부가세 포함)</small>
+            예상 총 비용
             </span>
 
             <strong>
-            ${money(sellerBrokerage)}
+            ${money(sellerTotal)}
             </strong>
 
           </div>
@@ -1634,6 +1640,7 @@ if(topic === "fee"){
       `;
 
     }
+
   );
 
 
