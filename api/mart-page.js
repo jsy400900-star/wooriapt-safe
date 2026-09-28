@@ -5,10 +5,10 @@
 ========================================= */
 
 const SUPABASE_URL =
-  process.env.SUPABASE_URL;
+  process.env.MART_SUPABASE_URL;
 
 const SUPABASE_KEY =
-  process.env.SUPABASE_SECRET_KEY;
+  process.env.MART_SUPABASE_ANON_KEY;
 
 const BASE_URL =
   "https://www.wooriapt.app";
@@ -556,6 +556,7 @@ h1{
 }
 
 </style>
+
 </head>
 
 <body>
@@ -1130,6 +1131,8 @@ ${items}
 
   return res.end(xml);
 }
+
+
 /* =========================================
    4. 개별 마트 사이트맵
 
@@ -1183,12 +1186,6 @@ async function handleMartSitemap(
     );
 
 
-  /*
-    예:
-    page 1 = 0 ~ 4999
-    page 2 = 5000 ~ 9999
-    page 3 = 10000 ~ 14999
-  */
   const start =
     (page - 1) *
     PAGE_SIZE;
@@ -1222,12 +1219,6 @@ async function handleMartSitemap(
       `${SUPABASE_URL}/rest/v1/mart_directory?${params.toString()}`;
 
 
-    /*
-      ★ 핵심 수정 부분
-
-      한 번에 5,000개 요청하지 않고
-      1,000개씩 가져와 rows에 합친다.
-    */
     const rows = [];
 
 
@@ -1293,10 +1284,6 @@ async function handleMartSitemap(
       );
 
 
-      /*
-        마지막 데이터 구간에 도착한 경우
-        더 이상 불필요한 요청을 하지 않는다.
-      */
       if (
         batchRows.length < 1000
       ) {
