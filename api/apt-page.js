@@ -2612,9 +2612,6 @@ ${brokerItems}
       );
   }
 }
-  name="robots"
-  content="index,follow,max-image-preview:large"
->
 
 <link
   rel="canonical"
