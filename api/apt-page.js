@@ -906,15 +906,13 @@ async function aptHandleApartmentList(
           };
         }
       );
-
-
-    return res
+        return res
       .status(200)
       .json({
         ok: true,
 
         pageNo:
-              pageNo,
+          pageNo,
 
         numOfRows:
           numOfRows,
@@ -1569,7 +1567,7 @@ async function aptHandleApartmentPage(
 
     res.setHeader(
       "Content-Type",
-      "text/aptHtml; charset=utf-8"
+      "text/html; charset=utf-8"
     );
 
 
@@ -1581,8 +1579,8 @@ async function aptHandleApartmentPage(
 
     return res
       .status(200)
-      .send(`<!doctype aptHtml>
-<aptHtml lang="ko">
+      .send(`<!doctype html>
+<html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta
@@ -1648,118 +1646,135 @@ body {
 .brand strong {
   color: #1165d7;
 }
-
-.home {
-  padding: 9px 12px;
-  border: 1px solid #d4e0e8;
-  border-radius: 10px;
-  background: #fff;
-  color: #456177;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.hero {
-  overflow: hidden;
-  border: 1px solid #dce5ec;
-  border-radius: 20px;
-  background: #fff;
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 16px;
   box-shadow:
-    0 7px 22px
-    rgba(22, 56, 83, .07);
-}
-
-.hero-top {
-  padding: 30px 22px;
-  background:
-    linear-gradient(
-      135deg,
-      #0f5fcf,
-      #2381e7
-    );
-  color: #fff;
+    0 8px 26px
+    rgba(20, 55, 90, 0.08);
 }
 
 h1 {
-  margin: 0;
-  font-size: 30px;
+  margin:
+    0 0 12px;
+  font-size: 27px;
   line-height: 1.4;
+  letter-spacing: -0.7px;
 }
 
-.subtitle {
-  margin: 13px 0 0;
-  line-height: 1.7;
+h2 {
+  margin:
+    0 0 12px;
+  font-size: 21px;
+  line-height: 1.45;
 }
 
-.body {
-  padding: 25px 20px 28px;
+p {
+  margin:
+    7px 0;
+  line-height: 1.75;
+  color: #425466;
 }
 
-.body h2 {
-  font-size: 20px;
+.hero {
+  padding:
+    28px 22px;
 }
 
-.body p {
-  color: #536b7d;
-  line-height: 1.8;
+.hero .sub {
+  font-size: 16px;
+}
+
+.point {
+  color: #1165d7;
+  font-weight: 900;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 17px;
+}
+
+.badge {
+  display: inline-block;
+  padding:
+    7px 11px;
+  border-radius: 999px;
+  background: #edf5ff;
+  color: #1557a5;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 57px;
-  margin-top: 20px;
-  border-radius: 12px;
-  background: #1165d7;
-  color: #fff;
-  font-size: 17px;
-  font-weight: 900;
-  text-decoration: none;
-}
-
-.list {
+  display: block;
   margin-top: 18px;
-  padding: 18px;
-  border: 1px solid #e0e8ee;
-  border-radius: 13px;
-  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  background: #1267d6;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 17px;
 }
 
-.list ul {
-  margin: 10px 0 0;
+ul {
+  margin:
+    10px 0 0;
   padding-left: 20px;
 }
 
-.list li {
-  margin: 9px 0;
+li {
+  margin:
+    8px 0;
+  line-height: 1.55;
 }
 
-.list a {
-  color: #0b58bd;
-  font-weight: 700;
+li a {
+  color: #174f86;
   text-decoration: none;
 }
 
-.footer {
-  margin-top: 22px;
-  color: #82929e;
-  font-size: 11px;
-  line-height: 1.7;
-  text-align: center;
+li a:hover {
+  text-decoration: underline;
 }
 
-@media(max-width: 480px) {
+.small {
+  font-size: 13px;
+  color: #6d7b88;
+}
+
+.footer {
+  padding:
+    10px 4px;
+  text-align: center;
+  font-size: 12px;
+  color: #7c8995;
+}
+
+@media (
+  max-width: 600px
+) {
   h1 {
-    font-size: 25px;
+    font-size: 23px;
   }
 
-  .hero-top {
-    padding: 25px 17px;
+  h2 {
+    font-size: 19px;
   }
 
-  .body {
-    padding: 21px 15px 24px;
+  .card {
+    padding: 18px;
+  }
+
+  .hero {
+    padding:
+      23px 18px;
   }
 }
 </style>
@@ -1767,81 +1782,113 @@ h1 {
 
 <body>
 
-<div class="wrap">
+<main class="wrap">
 
-  <header class="header">
-
+  <div class="header">
     <a
       class="brand"
       href="/"
     >
-      🏠 우리아파트
+      우리아파트
       <strong>안심거래</strong>
     </a>
+  </div>
+
+
+  <section class="card hero">
+
+    <h1>
+      ${aptHtml(subject)}
+    </h1>
+
+    <p class="sub">
+      원하는 아파트,
+      직접 찾아다니지 마세요.
+      <span class="point">
+        희망조건만 등록하세요.
+      </span>
+    </p>
+
+    <div class="badges">
+
+      <span class="badge">
+        안심거래
+      </span>
+
+      <span class="badge">
+        플랫폼 서비스 이용료 50%
+      </span>
+
+      <span class="badge">
+        공인중개사 맞춤 제안
+      </span>
+
+    </div>
+
 
     <a
-      class="home"
-      href="/"
+      class="cta"
+      href="/apt.html"
     >
-      홈으로
+      매수 아파트 등록하기
     </a>
 
-  </header>
+  </section>
 
 
-  <main class="hero">
+  <section class="card">
 
-    <section class="hero-top">
-
-      <div>
-        ${aptHtml(location)}
-      </div>
-
-      <h1>
-        ${aptHtml(subject)}
-      </h1>
-
-      <p class="subtitle">
-        원하는 아파트, 직접 찾아다니지 마세요.
-      </p>
-
-    </section>
+    <h2>
+      ${aptHtml(location)}
+      아파트 ${aptHtml(trade)} 정보
+    </h2>
 
 
-    <section class="body">
+    ${
+      apartment
+        ? `
+          <p>
+            <strong>
+              ${aptHtml(apartment)}
+            </strong>
+            단지를 찾는 고객을 위한
+            페이지입니다.
+          </p>
 
-      <h2>
-        ${aptHtml(subject)} 찾기
-      </h2>
+          <p>
+            희망조건을 등록하면
+            공인중개사가 조건에 맞는
+            매물을 제안할 수 있습니다.
+          </p>
+        `
+        : `
+          <p>
+            ${aptHtml(place)}에서
+            ${aptHtml(trade)} 가능한
+            아파트 단지를 확인하세요.
+          </p>
 
-      <p>
-        ${aptHtml(description)}
-      </p>
+          <p>
+            아래 단지를 선택하면
+            해당 아파트의
+            ${aptHtml(trade)} 안내 페이지로
+            이동합니다.
+          </p>
+        `
+    }
 
-      <p>
-        희망조건을 등록하면 해당 지역 공인중개사가
-        조건에 맞는 매물을 제안합니다.
-      </p>
-
-      <a
-        class="cta"
-        href="/apt.aptHtml"
-      >
-        매수 아파트 등록하기
-      </a>
-    </section>
-
-  </main>
+  </section>
 
 
   ${
-    apartment
-      ? ""
-      : `
-        <section class="list">
+    !apartment &&
+    list
+      ? `
+        <section class="card">
 
           <h2>
-            ${aptHtml(place)} 아파트 목록
+            ${aptHtml(place)}
+            아파트 목록
           </h2>
 
           <ul>
@@ -1850,29 +1897,76 @@ h1 {
 
         </section>
       `
+      : ""
   }
 
 
-  <footer class="footer">
+  <section class="card">
 
-    <div>
-      업체명: 에너젠51　|　대표자: 장수용
-    </div>
+    <h2>
+      우리아파트 안심거래
+    </h2>
 
-    <div>
-      사업자등록번호: 410-27-88141
-    </div>
+    <p>
+      매수자·임차인이 원하는
+      아파트와 거래조건을 등록하면
+      공인중개사가 조건에 맞는
+      매물을 제안합니다.
+    </p>
 
-    <div>
-      © 우리아파트 안심거래
-    </div>
+    <p>
+      제안 내용을 비교한 뒤
+      원하는 매물을 선택하고
+      안전한 절차에 따라
+      거래를 진행할 수 있습니다.
+    </p>
 
-  </footer>
+    <p>
+      매수자·임차인은
+      <strong>
+        플랫폼 서비스 이용료 50%
+      </strong>
+      혜택을 받을 수 있습니다.
+    </p>
 
-</div>
+  </section>
+
+
+  <section class="card">
+
+    <h2>
+      안전한 아파트 거래
+    </h2>
+
+    <p>
+      계약 과정에서는
+      필요한 서류를 확인하고
+      전자계약을 이용합니다.
+    </p>
+
+    <p>
+      계약금과 중도금은
+      필요에 따라
+      안전한 거래 절차를
+      이용할 수 있습니다.
+    </p>
+
+    <p>
+      전자계약서를 확인하고
+      프린터해서 보관할 수 있습니다.
+    </p>
+
+  </section>
+
+
+  <div class="footer">
+    © 우리아파트 안심거래
+  </div>
+
+</main>
 
 </body>
-</aptHtml>`);
+</html>`);
 
   } catch (error) {
 
@@ -1881,24 +1975,122 @@ h1 {
       error
     );
 
+
     return res
       .status(500)
       .send(
-        "페이지를 불러오는 중 오류가 발생했습니다."
+        "페이지 생성 중 오류가 발생했습니다."
       );
   }
 }
 
 
 /* =========================================
-   공인중개사 agent_directory 조회
+   기존 아파트 목록
 ========================================= */
 
-async function getBrokerRows(
-  region,
-  city,
-  place
+async function handleApartmentList(
+  req,
+  res
 ) {
+  return aptHandleApartmentList(
+    req,
+    res
+  );
+}
+
+
+/* =========================================
+   기존 아파트 사이트맵 인덱스
+========================================= */
+
+async function handleSitemapIndex(
+  req,
+  res
+) {
+  return aptHandleSitemapIndex(
+    req,
+    res
+  );
+}
+
+
+/* =========================================
+   기존 아파트 분할 사이트맵
+========================================= */
+
+async function handleSitemap(
+  req,
+  res
+) {
+  return aptHandleSitemap(
+    req,
+    res
+  );
+}
+
+
+/* =========================================
+   기존 아파트 자동검색 페이지
+========================================= */
+
+async function handleApartmentPage(
+  req,
+  res
+) {
+  return aptHandleApartmentPage(
+    req,
+    res
+  );
+}
+
+
+/* =========================================
+   공인중개사 자동검색 페이지
+========================================= */
+
+async function handleBrokerPage(
+  req,
+  res
+) {
+
+  const region =
+    clean(
+      req.query.region
+    );
+
+
+  const city =
+    clean(
+      req.query.city
+    );
+
+
+  const place =
+    clean(
+      req.query.place
+    );
+
+
+  const broker =
+    clean(
+      req.query.broker
+    );
+
+
+  if (
+    !region ||
+    !city ||
+    !place
+  ) {
+    return res
+      .status(404)
+      .send(
+        "지역 정보가 없습니다."
+      );
+  }
+
+
   const query =
     new URLSearchParams();
 
@@ -1927,81 +2119,34 @@ async function getBrokerRows(
 
   if (place) {
     query.set(
-      "읍면동",
+      "동리",
       "eq." + place
     );
   }
 
 
-  query.set(
-    "limit",
-    "100"
-  );
-
-
-  const response =
-    await fetch(
-      SUPABASE_URL +
-      "/rest/v1/agent_directory?" +
-      query.toString(),
-      {
-        method: "GET",
-
-        headers: {
-          apikey:
-            SUPABASE_KEY,
-
-          Authorization:
-            "Bearer " +
-            SUPABASE_KEY,
-
-          Accept:
-            "application/json"
-        }
-      }
+  if (broker) {
+    query.set(
+      "상호명",
+      "eq." + broker
     );
+  }
 
 
-  if (!response.ok) {
-    const fallback =
-      new URLSearchParams();
+  const apiUrl =
+    SUPABASE_URL +
+    "/rest/v1/agent_directory?" +
+    query.toString();
 
 
-    fallback.set(
-      "select",
-      "*"
-    );
+  try {
 
-
-    if (region) {
-      fallback.set(
-        "시도",
-        "eq." + region
-      );
-    }
-
-
-    if (city) {
-      fallback.set(
-        "시군구",
-        "eq." + city
-      );
-    }
-
-
-    fallback.set(
-      "limit",
-      "300"
-    );
-
-
-    const fallbackResponse =
+    const response =
       await fetch(
-        SUPABASE_URL +
-        "/rest/v1/agent_directory?" +
-        fallback.toString(),
+        apiUrl,
         {
-          method: "GET",
+          method:
+            "GET",
 
           headers: {
             apikey:
@@ -2012,699 +2157,251 @@ async function getBrokerRows(
               SUPABASE_KEY,
 
             Accept:
-              "application/json"
+              "application/json",
+
+            Range:
+              "0-999"
           }
         }
       );
 
 
-    if (!fallbackResponse.ok) {
+    if (!response.ok) {
+
       const errorText =
-        await fallbackResponse.text();
+        await response.text();
 
 
       console.error(
-        "AGENT DIRECTORY ERROR:",
+        "BROKER PAGE DB ERROR:",
         errorText
       );
 
 
-      return [];
+      return res
+        .status(response.status)
+        .send(
+          "공인중개사 정보를 불러오지 못했습니다."
+        );
     }
 
 
-    const fallbackRows =
-      await fallbackResponse.json();
-
-
-    return fallbackRows
-      .filter(
-        function(row) {
-          const locationText =
-            [
-              firstValue(
-                row,
-                [
-                  "읍면동",
-                  "동리",
-                  "읍면",
-                  "동",
-                  "법정동"
-                ]
-              ),
-
-              firstValue(
-                row,
-                [
-                  "도로명주소",
-                  "도로명 주소",
-                  "지번주소",
-                  "지번 주소",
-                  "주소"
-                ]
-              )
-            ]
-              .filter(Boolean)
-              .join(" ");
-
-
-          return (
-            !place ||
-            locationText.includes(place)
-          );
-        }
-      )
-      .slice(0, 100);
-  }
-
-
-  return await response.json();
-}
-
-
-/* =========================================
-   중개사 실제 컬럼 읽기
-========================================= */
-
-function brokerData(row) {
-  const name =
-    firstValue(
-      row,
-      [
-        "상호명",
-        "업소명",
-        "중개업소명",
-        "사무소명",
-        "중개사무소명",
-        "상호"
-      ]
-    );
-
-
-  const roadAddress =
-    firstValue(
-      row,
-      [
-        "도로명주소",
-        "도로명 주소",
-        "사업장도로명주소"
-      ]
-    );
-
-
-  const jibunAddress =
-    firstValue(
-      row,
-      [
-        "지번주소",
-        "지번 주소",
-        "주소",
-        "사업장소재지"
-      ]
-    );
-
-
-  const zipcode =
-    firstValue(
-      row,
-      [
-        "우편번호",
-        "우편 번호"
-      ]
-    );
-
-
-  const phone1 =
-    firstValue(
-      row,
-      [
-        "전화번호 1",
-        "전화번호1",
-        "전화번호",
-        "대표전화",
-        "대표전화번호"
-      ]
-    );
-
-
-  const phone2 =
-    firstValue(
-      row,
-      [
-        "전화번호 2",
-        "전화번호2",
-        "추가전화번호"
-      ]
-    );
-
-
-  const homepageRaw =
-    firstValue(
-      row,
-      [
-        "홈페이지",
-        "homepage",
-        "website",
-        "url",
-        "URL"
-      ]
-    );
-
-
-  const homepage =
-    safeUrl(
-      homepageRaw
-    );
-
-
-  const businessType =
-    firstValue(
-      row,
-      [
-        "업종명",
-        "업종",
-        "업태"
-      ]
-    );
-
-
-  const representative =
-    firstValue(
-      row,
-      [
-        "대표자명",
-        "대표자"
-      ]
-    );
-
-
-  return {
-    name:
-      name,
-
-    roadAddress:
-      roadAddress,
-
-    jibunAddress:
-      jibunAddress,
-
-    zipcode:
-      zipcode,
-
-    phone1:
-      phone1,
-
-    phone2:
-      phone2,
-
-    homepage:
-      homepage,
-
-    businessType:
-      businessType,
-
-    representative:
-      representative
-  };
-}
-
-
-/* =========================================
-   공인중개사 자동검색 페이지
-   agent_directory 실제 DB 사용
-========================================= */
-
-async function handleBrokerPage(
-  req,
-  res
-) {
-  const region =
-    clean(req.query.region);
-
-  const city =
-    clean(req.query.city);
-
-  const place =
-    clean(req.query.place);
-const broker =
-  clean(req.query.broker);
-  if (
-    !region ||
-    !city ||
-    !place
-  ) {
-    return res
-      .status(404)
-      .send(
-        "페이지를 찾을 수 없습니다."
-      );
-  }
-
-
-  const location =
-    [
-      region,
-      city,
-      place
-    ]
-      .filter(Boolean)
-      .join(" ");
-
-
-    const canonical =
-    SITE_ORIGIN +
-    "/broker-search/" +
-    [
-      region,
-      city,
-      place,
-      broker
-    ]
-      .filter(Boolean)
-      .map(pathEncode)
-      .join("/");
-
-
-  try {
     const rows =
-      await getBrokerRows(
-        region,
-        city,
-        place
-      );
+      await response.json();
 
 
-    const brokers =
-  Array.isArray(rows)
-    ? rows
-        .map(brokerData)
-        .filter(
-          function(item) {
-            return (
-              !!item.name &&
-              (
-                !broker ||
-                item.name === broker
-              )
-            );
-          }
-        )
-    : [];
-
-
-        if (
-      broker &&
-      brokers.length === 0
+    if (
+      !Array.isArray(rows) ||
+      rows.length === 0
     ) {
       return res
         .status(404)
         .send(
-          "해당 공인중개사를 찾을 수 없습니다."
+          "등록된 공인중개사 정보를 찾을 수 없습니다."
         );
     }
+
+
+    const location =
+      [
+        region,
+        city,
+        place
+      ]
+        .filter(Boolean)
+        .join(" ");
+
+
+    const canonical =
+      SITE_ORIGIN +
+      "/broker-search/" +
+      [
+        region,
+        city,
+        place
+      ]
+        .concat(
+          broker
+            ? [broker]
+            : []
+        )
+        .map(pathEncode)
+        .join("/");
+
+
     const brokerCount =
-      brokers.length;
-
-
-    const homepageCount =
-      brokers.filter(
-        function(item) {
-          return !!item.homepage;
-        }
-      ).length;
+      rows.length;
 
 
     const title =
-  broker
-    ? broker +
-      " | " +
-      location +
-      " 공인중개사 | 우리아파트 안심거래"
-    : location +
-      " 공인중개사" +
-      (
-        brokerCount
-          ? " " +
-            brokerCount +
-            "곳"
-          : ""
-      ) +
-      " | 우리아파트 안심거래";
-      (
-        brokerCount
-          ? " " +
-            brokerCount +
-            "곳"
-          : ""
-      ) +
-      " | 우리아파트 안심거래";
-
-
-        const description =
-      (
-        broker
-          ? broker +
-            "의 주소, 전화번호, 홈페이지 등 중개업소 정보를 확인하세요. " +
+      broker
+        ? (
             location +
-            " 아파트 매매·전세·월세 및 우리아파트 안심거래 정보를 확인할 수 있습니다."
-          : location +
-            " 공인중개사 정보를 확인하세요. " +
-            (
-              brokerCount
-                ? "등록된 중개업소 " +
-                  brokerCount +
-                  "곳의 "
-                : ""
-            ) +
-            "상호명, 주소, 전화번호" +
-            (
-              homepageCount
-                ? ", 홈페이지"
-                : ""
-            ) +
-            " 정보를 확인할 수 있습니다. " +
-            "공인중개사는 매수자·임차인의 희망조건을 확인하고 맞춤 매물을 제안할 수 있습니다."
-      ).slice(
-        0,
-        300
-      );
-
-
-    let brokerListHtml = "";
-
-
-    if (brokers.length) {
-      brokerListHtml =
-        brokers
-          .map(
-            function(
-              broker,
-              index
-            ) {
-              const address =
-                broker.roadAddress ||
-                broker.jibunAddress;
-
-
-              let homepageHtml = "";
-
-
-              if (broker.homepage) {
-                homepageHtml = `
-                  <a
-                    class="broker-homepage"
-                    href="${html(broker.homepage)}"
-                    target="_blank"
-                    rel="nofollow noopener noreferrer"
-                  >
-                    홈페이지·블로그 보기
-                  </a>
-                `;
-              }
-
-
-              let phoneHtml = "";
-
-
-              if (
-                broker.phone1 ||
-                broker.phone2
-              ) {
-                phoneHtml = `
-                  <div class="broker-row">
-
-                    <div class="broker-label">
-                      전화
-                    </div>
-
-                    <div class="broker-value">
-                      ${
-                        broker.phone1
-                          ? html(
-                              broker.phone1
-                            )
-                          : ""
-                      }
-
-                      ${
-                        broker.phone1 &&
-                        broker.phone2
-                          ? "<br>"
-                          : ""
-                      }
-
-                      ${
-                        broker.phone2
-                          ? html(
-                              broker.phone2
-                            )
-                          : ""
-                      }
-                    </div>
-
-                  </div>
-                `;
-              }
-
-
-              return `
-                <article class="broker-card">
-
-                  <div class="broker-number">
-                    ${index + 1}
-                  </div>
-
-
-                  <h3>
-  <a
-    href="/broker-search/${[
-      region,
-      city,
-      place,
-      broker.name
-    ]
-      .map(pathEncode)
-      .join("/")}"
-  >
-    ${html(broker.name)}
-  </a>
-</h3>
-
-
-                  ${
-                    broker.businessType
-                      ? `
-                        <div class="broker-type">
-                          ${html(
-                            broker.businessType
-                          )}
-                        </div>
-                      `
-                      : ""
-                  }
-
-
-                  ${
-                    address
-                      ? `
-                        <div class="broker-row">
-
-                          <div class="broker-label">
-                            주소
-                          </div>
-
-                          <div class="broker-value">
-                            ${html(address)}
-                          </div>
-
-                        </div>
-                      `
-                      : ""
-                  }
-
-
-                  ${
-                    broker.jibunAddress &&
-                    broker.roadAddress &&
-                    broker.jibunAddress !==
-                      broker.roadAddress
-                      ? `
-                        <div class="broker-row">
-
-                          <div class="broker-label">
-                            지번
-                          </div>
-
-                          <div class="broker-value">
-                            ${html(
-                              broker.jibunAddress
-                            )}
-                          </div>
-
-                        </div>
-                      `
-                      : ""
-                  }
-
-
-                  ${
-                    broker.zipcode
-                      ? `
-                        <div class="broker-row">
-
-                          <div class="broker-label">
-                            우편번호
-                          </div>
-
-                          <div class="broker-value">
-                            ${html(
-                              broker.zipcode
-                            )}
-                          </div>
-
-                        </div>
-                      `
-                      : ""
-                  }
-
-
-                  ${phoneHtml}
-
-
-                  ${
-                    broker.representative
-                      ? `
-                        <div class="broker-row">
-
-                          <div class="broker-label">
-                            대표자
-                          </div>
-
-                          <div class="broker-value">
-                            ${html(
-                              broker.representative
-                            )}
-                          </div>
-
-                        </div>
-                      `
-                      : ""
-                  }
-
-
-                  ${homepageHtml}
-
-                </article>
-              `;
-            }
+            " " +
+            broker +
+            " 공인중개사"
           )
-          .join("");
-
-    } else {
-      brokerListHtml = `
-        <div class="empty">
-
-          현재 ${html(location)}에서
-          표시할 수 있는 공인중개사 상세정보를
-          찾지 못했습니다.
-
-        </div>
-      `;
-    }
+        : (
+            location +
+            " 공인중개사"
+          );
 
 
-    const itemList =
-      brokers
-        .slice(0, 100)
+    const description =
+      broker
+        ? (
+            location +
+            " " +
+            broker +
+            " 공인중개사 정보입니다. " +
+            "우리아파트 안심거래에서 " +
+            "아파트 매매·전세·월세 거래 정보를 확인하세요."
+          )
+        : (
+            location +
+            " 지역 공인중개사 " +
+            brokerCount +
+            "곳의 정보를 확인하세요. " +
+            "우리아파트 안심거래에서 " +
+            "아파트 매매·전세·월세 거래 정보를 확인할 수 있습니다."
+          );
+
+
+    const brokerItems =
+      rows
+        .slice(
+          0,
+          100
+        )
         .map(
-          function(
-            broker,
-            index
-          ) {
-            const item = {
-              "@type":
-                "LocalBusiness",
+          function(row) {
 
-              name:
-                broker.name
-            };
+            const officeName =
+              firstValue(
+                row,
+                [
+                  "상호명",
+                  "중개사무소명",
+                  "사무소명",
+                  "업체명"
+                ]
+              );
 
 
             const address =
-              broker.roadAddress ||
-              broker.jibunAddress;
+              firstValue(
+                row,
+                [
+                  "주소",
+                  "도로명주소",
+                  "소재지"
+                ]
+              );
 
 
-            if (address) {
-              item.address = {
-                "@type":
-                  "PostalAddress",
-
-                streetAddress:
-                  address,
-
-                addressLocality:
-                  city,
-
-                addressRegion:
-                  region,
-
-                postalCode:
-                  broker.zipcode || undefined,
-
-                addressCountry:
-                  "KR"
-              };
-            }
+            const phone =
+              firstValue(
+                row,
+                [
+                  "전화번호",
+                  "대표전화",
+                  "연락처"
+                ]
+              );
 
 
-            if (broker.phone1) {
-              item.telephone =
-                broker.phone1;
-            }
+            const homepage =
+              safeUrl(
+                firstValue(
+                  row,
+                  [
+                    "홈페이지",
+                    "홈페이지URL",
+                    "website",
+                    "url"
+                  ]
+                )
+              );
 
 
-            if (broker.homepage) {
-              item.sameAs = [
-                broker.homepage
-              ];
-            }
+            const brokerUrl =
+              officeName
+                ? (
+                    "/broker-search/" +
+                    [
+                      region,
+                      city,
+                      place,
+                      officeName
+                    ]
+                      .map(
+                        pathEncode
+                      )
+                      .join("/")
+                  )
+                : "";
 
 
-            return {
-              "@type":
-                "ListItem",
+            return `
+              <li>
+                ${
+                  brokerUrl
+                    ? (
+                        '<a href="' +
+                        html(brokerUrl) +
+                        '"><strong>' +
+                        html(
+                          officeName ||
+                          "공인중개사"
+                        ) +
+                        "</strong></a>"
+                      )
+                    : (
+                        "<strong>" +
+                        html(
+                          officeName ||
+                          "공인중개사"
+                        ) +
+                        "</strong>"
+                      )
+                }
 
-              position:
-                index + 1,
+                ${
+                  address
+                    ? (
+                        "<div>" +
+                        html(address) +
+                        "</div>"
+                      )
+                    : ""
+                }
 
-              item:
-                item
-            };
+                ${
+                  phone
+                    ? (
+                        "<div>전화 " +
+                        html(phone) +
+                        "</div>"
+                      )
+                    : ""
+                }
+
+                ${
+                  homepage
+                    ? (
+                        '<div><a href="' +
+                        html(homepage) +
+                        '" rel="nofollow noopener" target="_blank">' +
+                        "홈페이지 보기" +
+                        "</a></div>"
+                      )
+                    : ""
+                }
+              </li>
+            `;
           }
-        );
-
-
-    const structuredData = {
-      "@context":
-        "https://schema.org",
-
-      "@type":
-        "ItemList",
-
-      name:
-        location +
-        " 공인중개사",
-
-      url:
-        canonical,
-
-      numberOfItems:
-        brokerCount,
-
-      itemListElement:
-        itemList
-    };
+        )
+        .join("");
 
 
     res.setHeader(
@@ -2715,26 +2412,24 @@ const broker =
 
     res.setHeader(
       "Cache-Control",
-      "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+      "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800"
     );
 
 
     return res
       .status(200)
       .send(`<!doctype html>
-
 <html lang="ko">
-
 <head>
 
 <meta charset="utf-8">
 
 <meta
   name="viewport"
-  content="width=device-width,initial-scale=1,viewport-fit=cover"
+  content="width=device-width,initial-scale=1"
 >
 
-<title>${html(title)}</title>
+<title>${html(title)} | 우리아파트 안심거래</title>
 
 <meta
   name="description"
@@ -2743,7 +2438,7 @@ const broker =
 
 <meta
   name="robots"
-  content="index,follow,max-image-preview:large"
+  content="index,follow"
 >
 
 <link
@@ -2751,6 +2446,180 @@ const broker =
   href="${html(canonical)}"
 >
 
+<style>
+
+* {
+  box-sizing:
+    border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    #f4f7fa;
+  color:
+    #172b3d;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+}
+
+.wrap {
+  max-width:
+    760px;
+  margin:
+    auto;
+  padding:
+    18px 14px 55px;
+}
+
+.card {
+  background:
+    #ffffff;
+  border-radius:
+    18px;
+  padding:
+    22px;
+  margin-bottom:
+    16px;
+  box-shadow:
+    0 8px 26px
+    rgba(20,55,90,.08);
+}
+
+h1 {
+  margin:
+    0 0 12px;
+  font-size:
+    27px;
+  line-height:
+    1.4;
+}
+
+h2 {
+  font-size:
+    21px;
+}
+
+p {
+  line-height:
+    1.7;
+  color:
+    #425466;
+}
+
+ul {
+  padding-left:
+    22px;
+}
+
+li {
+  margin:
+    14px 0;
+  line-height:
+    1.6;
+}
+
+a {
+  color:
+    #1557a5;
+}
+
+.cta {
+  display:
+    block;
+  margin-top:
+    18px;
+  padding:
+    15px;
+  border-radius:
+    12px;
+  background:
+    #1267d6;
+  color:
+    #ffffff;
+  text-align:
+    center;
+  text-decoration:
+    none;
+  font-weight:
+    900;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<main class="wrap">
+
+<section class="card">
+
+<h1>
+${html(title)}
+</h1>
+
+<p>
+${html(description)}
+</p>
+
+<a
+  class="cta"
+  href="/apt.html"
+>
+매수 아파트 등록하기
+</a>
+
+</section>
+
+
+<section class="card">
+
+<h2>
+${html(location)}
+공인중개사
+</h2>
+
+<ul>
+${brokerItems}
+</ul>
+
+</section>
+
+
+</main>
+
+</body>
+</html>`);
+
+  } catch (error) {
+
+    console.error(
+      "BROKER PAGE ERROR:",
+      error
+    );
+
+
+    return res
+      .status(500)
+      .send(
+        "공인중개사 페이지 생성 중 오류가 발생했습니다."
+      );
+  }
+}
+  name="robots"
+  content="index,follow,max-image-preview:large"
+>
+
+<link
+  rel="canonical"
+  href="${html(canonical)}"
+>
 
 <meta
   property="og:type"
@@ -2772,18 +2641,15 @@ const broker =
   content="${html(canonical)}"
 >
 
-
 <script type="application/ld+json">
 ${JSON.stringify(structuredData)}
 </script>
-
 
 <style>
 
 * {
   box-sizing: border-box;
 }
-
 
 body {
   margin: 0;
@@ -2799,14 +2665,12 @@ body {
     sans-serif;
 }
 
-
 .wrap {
   width: 100%;
   max-width: 850px;
   margin: auto;
   padding: 18px 14px 60px;
 }
-
 
 .header {
   display: flex;
@@ -2816,7 +2680,6 @@ body {
   margin-bottom: 18px;
 }
 
-
 .brand {
   color: #173a59;
   font-size: 20px;
@@ -2824,11 +2687,9 @@ body {
   text-decoration: none;
 }
 
-
 .brand strong {
   color: #1165d7;
 }
-
 
 .home {
   padding: 9px 12px;
@@ -2840,7 +2701,6 @@ body {
   text-decoration: none;
 }
 
-
 .hero {
   overflow: hidden;
   border: 1px solid #dce5ec;
@@ -2851,7 +2711,6 @@ body {
     0 7px 22px
     rgba(22, 56, 83, .07);
 }
-
 
 .hero-top {
   padding: 30px 22px;
@@ -2866,7 +2725,6 @@ body {
   color: #fff;
 }
 
-
 .location {
   margin-bottom: 8px;
   font-size: 14px;
@@ -2874,24 +2732,20 @@ body {
   opacity: .9;
 }
 
-
 h1 {
   margin: 0;
   font-size: 29px;
   line-height: 1.4;
 }
 
-
 .subtitle {
   margin: 13px 0 0;
   line-height: 1.75;
 }
 
-
 .body {
   padding: 24px 20px 28px;
 }
-
 
 .summary {
   margin-bottom: 23px;
@@ -2901,11 +2755,9 @@ h1 {
   background: #f7fafd;
 }
 
-
 .summary strong {
   color: #1165d7;
 }
-
 
 .summary p {
   margin: 5px 0;
@@ -2913,17 +2765,14 @@ h1 {
   line-height: 1.7;
 }
 
-
 .broker-section {
   margin-top: 25px;
 }
-
 
 .broker-section h2 {
   margin: 0 0 14px;
   font-size: 22px;
 }
-
 
 .broker-card {
   position: relative;
@@ -2936,7 +2785,6 @@ h1 {
 
   background: #fff;
 }
-
 
 .broker-number {
   position: absolute;
@@ -2958,19 +2806,16 @@ h1 {
   text-align: center;
 }
 
-
 .broker-card h3 {
   margin: 0 45px 6px 0;
   font-size: 19px;
 }
-
 
 .broker-type {
   margin-bottom: 12px;
   color: #738596;
   font-size: 13px;
 }
-
 
 .broker-row {
   display: grid;
@@ -2986,18 +2831,15 @@ h1 {
   line-height: 1.6;
 }
 
-
 .broker-label {
   color: #748696;
   font-weight: 800;
 }
 
-
 .broker-value {
   color: #334c60;
   word-break: break-word;
 }
-
 
 .broker-homepage {
   display: inline-flex;
@@ -3020,11 +2862,9 @@ h1 {
   text-decoration: none;
 }
 
-
 .broker-homepage:hover {
   background: #f1f7fd;
 }
-
 
 .empty {
   padding: 25px 17px;
@@ -3038,7 +2878,6 @@ h1 {
   line-height: 1.7;
 }
 
-
 .join-box {
   margin-top: 28px;
   padding: 22px 18px;
@@ -3048,12 +2887,10 @@ h1 {
   background: #f1f7fd;
 }
 
-
 .join-box h2 {
   margin: 0 0 10px;
   font-size: 21px;
 }
-
 
 .join-box p {
   margin: 7px 0;
@@ -3061,7 +2898,6 @@ h1 {
   color: #536b7d;
   line-height: 1.75;
 }
-
 
 .cta {
   display: flex;
@@ -3085,7 +2921,6 @@ h1 {
   text-decoration: none;
 }
 
-
 .footer {
   margin-top: 24px;
 
@@ -3097,23 +2932,19 @@ h1 {
   text-align: center;
 }
 
-
 @media(max-width:520px) {
 
   h1 {
     font-size: 25px;
   }
 
-
   .hero-top {
     padding: 25px 17px;
   }
 
-
   .body {
     padding: 21px 15px 25px;
   }
-
 
   .broker-row {
     grid-template-columns:
@@ -3125,12 +2956,9 @@ h1 {
 
 </head>
 
-
 <body>
 
-
 <div class="wrap">
-
 
 <header class="header">
 
@@ -3142,7 +2970,6 @@ h1 {
     <strong>안심거래</strong>
   </a>
 
-
   <a
     class="home"
     href="/"
@@ -3152,9 +2979,7 @@ h1 {
 
 </header>
 
-
 <main class="hero">
-
 
 <section class="hero-top">
 
@@ -3162,11 +2987,9 @@ h1 {
     ${html(location)}
   </div>
 
-
   <h1>
     ${html(place)} 공인중개사
   </h1>
-
 
   <p class="subtitle">
     우리동네 공인중개사 정보를 확인하고<br>
@@ -3175,9 +2998,7 @@ h1 {
 
 </section>
 
-
 <section class="body">
-
 
 <div class="summary">
 
@@ -3187,7 +3008,6 @@ h1 {
     </strong>
     공인중개사 정보를 확인할 수 있습니다.
   </p>
-
 
   ${
     brokerCount
@@ -3202,7 +3022,6 @@ h1 {
       `
       : ""
   }
-
 
   ${
     homepageCount
@@ -3221,18 +3040,15 @@ h1 {
 
 </div>
 
-
 <section class="broker-section">
 
   <h2>
     ${html(place)} 공인중개사 목록
   </h2>
 
-
   ${brokerListHtml}
 
 </section>
-
 
 <div class="join-box">
 
@@ -3240,19 +3056,16 @@ h1 {
     공인중개사이신가요?
   </h2>
 
-
   <p>
     전국 매수자·임차인의
     희망조건을 확인하고
     조건에 맞는 매물을 제안할 수 있습니다.
   </p>
 
-
   <p>
     회원 공인중개사는
     고객 연결을 우선적으로 받을 수 있습니다.
   </p>
-
 
   <a
     class="cta"
@@ -3263,11 +3076,9 @@ h1 {
 
 </div>
 
-
 </section>
 
 </main>
-
 
 <footer class="footer">
 
@@ -3285,14 +3096,11 @@ h1 {
 
 </footer>
 
-
 </div>
-
 
 </body>
 
 </html>`);
-
 
   } catch (error) {
 
@@ -3300,7 +3108,6 @@ h1 {
       "BROKER PAGE ERROR:",
       error
     );
-
 
     return res
       .status(500)
@@ -3386,8 +3193,6 @@ async function handleBrokerSitemap(req, res) {
 
     const urls = [];
 
-    /* 공인중개사 안내 페이지 */
-
     urls.push(
       "  <url>" +
         "<loc>" +
@@ -3403,15 +3208,6 @@ async function handleBrokerSitemap(req, res) {
         "<priority>0.9</priority>" +
         "</url>"
     );
-
-    /*
-      Supabase 함수에서 이미
-      지역명 + 시군구 + 동 기준으로
-      중복 제거된 동 목록만 반환한다.
-
-      같은 동에 중개사가 여러 곳 있어도
-      사이트맵 URL은 동당 1개만 생성한다.
-    */
 
     for (const row of rows) {
       const region =
@@ -3480,11 +3276,11 @@ async function handleBrokerSitemap(req, res) {
       );
   }
 }
+
+
 /* =========================================
    통합 진입점
 ========================================= */
-
-
 
 async function handler(
   req,
@@ -3517,7 +3313,6 @@ async function handler(
         });
     }
 
-
     try {
 
       let urls =
@@ -3525,19 +3320,16 @@ async function handler(
         req.body?.urlList ||
         [];
 
-
       if (
         typeof urls === "string"
       ) {
         urls = [urls];
       }
 
-
       const result =
         await submitIndexNow(
           urls
         );
-
 
       if (
         !result.ok
@@ -3550,11 +3342,9 @@ async function handler(
           .json(result);
       }
 
-
       return res
         .status(200)
         .json(result);
-
 
     } catch (error) {
 
@@ -3562,7 +3352,6 @@ async function handler(
         "INDEXNOW ERROR:",
         error
       );
-
 
       return res
         .status(500)
