@@ -750,18 +750,53 @@ h1{
 
     <div class="features">
 
-      <div class="feature">마트 매출 올리기</div>
-      <div class="feature">신규고객 유치</div>
-      <div class="feature">우리동네 고객연결</div>
-      <div class="feature">단골고객 만들기</div>
-      <div class="feature">마트 홍보하기</div>
-      <div class="feature">마트 회원등록</div>
-      <div class="feature">온라인 주문받기</div>
-      <div class="feature">배달주문 받기</div>
-      <div class="feature">문자비용 0원</div>
-      <div class="feature">QR 고객유치</div>
-      <div class="feature">매장 디지털전환</div>
-      <div class="feature">포인트 무료지급</div>
+      <div class="feature">
+        마트 매출 올리기
+      </div>
+
+      <div class="feature">
+        신규고객 유치
+      </div>
+
+      <div class="feature">
+        우리동네 고객연결
+      </div>
+
+      <div class="feature">
+        단골고객 만들기
+      </div>
+
+      <div class="feature">
+        마트 홍보하기
+      </div>
+
+      <div class="feature">
+        마트 회원등록
+      </div>
+
+      <div class="feature">
+        온라인 주문받기
+      </div>
+
+      <div class="feature">
+        배달주문 받기
+      </div>
+
+      <div class="feature">
+        문자비용 0원
+      </div>
+
+      <div class="feature">
+        QR 고객유치
+      </div>
+
+      <div class="feature">
+        매장 디지털전환
+      </div>
+
+      <div class="feature">
+        포인트 무료지급
+      </div>
 
     </div>
 
@@ -848,3 +883,812 @@ h1{
     );
   }
 }
+
+
+/* =========================================
+   2. 마트 검색 API
+========================================= */
+
+async function handleMartSearch(
+  req,
+  res
+) {
+
+  res.setHeader(
+    "Content-Type",
+    "application/json; charset=utf-8"
+  );
+
+  res.setHeader(
+    "Cache-Control",
+    "s-maxage=3600, stale-while-revalidate=86400"
+  );
+
+
+  if (
+    !SUPABASE_URL ||
+    !SUPABASE_KEY
+  ) {
+
+    return res
+      .status(500)
+      .json({
+        ok: false,
+
+        message:
+          "마트 Supabase 환경변수가 설정되지 않았습니다."
+      });
+  }
+
+
+  const q =
+    String(
+      req.query.q || ""
+    ).trim();
+
+
+  if (!q) {
+
+    return res
+      .status(400)
+      .json({
+        ok: false,
+
+        message:
+          "마트 검색어를 입력해주세요."
+      });
+  }
+
+
+  try {
+
+    const params =
+      new URLSearchParams();
+
+
+    params.set(
+      "select",
+      "시도,시군구,읍면동,상호명,주소,전화번호"
+    );
+
+
+    params.set(
+      "상호명",
+      `ilike.*${q}*`
+    );
+
+
+    params.set(
+      "order",
+      "상호명.asc"
+    );
+
+
+    params.set(
+      "limit",
+      "50"
+    );
+
+
+    const url =
+      `${SUPABASE_URL}/rest/v1/mart_directory?${params.toString()}`;
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          method: "GET",
+
+          headers: {
+
+            apikey:
+              SUPABASE_KEY,
+
+            Authorization:
+              `Bearer ${SUPABASE_KEY}`,
+
+            Accept:
+              "application/json"
+          }
+        }
+      );
+
+
+    if (!response.ok) {
+
+      const errorText =
+        await response.text();
+
+
+      return res
+        .status(
+          response.status
+        )
+        .json({
+          ok: false,
+
+          message:
+            "마트 DB 조회에 실패했습니다.",
+
+          error:
+            errorText
+        });
+    }
+
+
+    const rows =
+      await response.json();
+
+
+    return res
+      .status(200)
+      .json({
+        ok: true,
+
+        query:
+          q,
+
+        count:
+          rows.length,
+
+        marts:
+          rows
+      });
+
+
+  } catch (error) {
+
+    return res
+      .status(500)
+      .json({
+        ok: false,
+
+        message:
+          "마트 검색 중 오류가 발생했습니다.",
+
+        error:
+          String(
+            error.message ||
+            error
+          )
+      });
+  }
+}
+/* =========================================
+   2-1. 마트 DB 직접 연결 테스트
+========================================= */
+
+async function handleMartDbTest(
+  req,
+  res
+) {
+
+  res.setHeader(
+    "Content-Type",
+    "application/json; charset=utf-8"
+  );
+
+  res.setHeader(
+    "Cache-Control",
+    "no-store"
+  );
+
+
+  if (
+    !SUPABASE_URL ||
+    !SUPABASE_KEY
+  ) {
+
+    return res
+      .status(500)
+      .json({
+        ok: false,
+
+        test:
+          "mart-db-test",
+
+        message:
+          "마트 Supabase 환경변수가 설정되지 않았습니다."
+      });
+  }
+
+
+  try {
+
+    const params =
+      new URLSearchParams();
+
+
+    params.set(
+      "select",
+      "시도,시군구,읍면동,상호명,주소,전화번호"
+    );
+
+
+    params.set(
+      "limit",
+      "1"
+    );
+
+
+    const url =
+      `${SUPABASE_URL}/rest/v1/mart_directory?${params.toString()}`;
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          method: "GET",
+
+          headers: {
+
+            apikey:
+              SUPABASE_KEY,
+
+            Authorization:
+              `Bearer ${SUPABASE_KEY}`,
+
+            Accept:
+              "application/json"
+          }
+        }
+      );
+
+
+    if (!response.ok) {
+
+      const errorText =
+        await response.text();
+
+
+      return res
+        .status(
+          response.status
+        )
+        .json({
+          ok: false,
+
+          test:
+            "mart-db-test",
+
+          status:
+            response.status,
+
+          error:
+            errorText
+        });
+    }
+
+
+    const rows =
+      await response.json();
+
+
+    return res
+      .status(200)
+      .json({
+        ok: true,
+
+        test:
+          "mart-db-test",
+
+        count:
+          rows.length,
+
+        rows:
+          rows
+      });
+
+
+  } catch (error) {
+
+    return res
+      .status(500)
+      .json({
+        ok: false,
+
+        test:
+          "mart-db-test",
+
+        error:
+          String(
+            error.message ||
+            error
+          )
+      });
+  }
+}
+
+
+/* =========================================
+   3. 마트 사이트맵 INDEX
+========================================= */
+
+function handleMartSitemapIndex(
+  req,
+  res
+) {
+
+  let items = "";
+
+
+  for (
+    let page = 1;
+    page <= TOTAL_SITEMAPS;
+    page++
+  ) {
+
+    const loc =
+      `${BASE_URL}/sitemaps/marts-${page}.xml`;
+
+
+    items +=
+`
+  <sitemap>
+    <loc>${xmlEscape(loc)}</loc>
+  </sitemap>`;
+  }
+
+
+  const xml =
+`<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex
+xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${items}
+</sitemapindex>`;
+
+
+  res.statusCode = 200;
+
+
+  res.setHeader(
+    "Content-Type",
+    "application/xml; charset=utf-8"
+  );
+
+
+  res.setHeader(
+    "Cache-Control",
+    "s-maxage=3600, stale-while-revalidate=86400"
+  );
+
+
+  return res.end(xml);
+}
+
+
+/* =========================================
+   4. 개별 마트 사이트맵
+
+   중요:
+   사이트맵 1개 = 최대 5,000개
+
+   그러나 Supabase에는
+   5,000개를 한 번에 요청하지 않는다.
+
+   정상 작동 중인 아파트 방식과 동일하게
+   1,000개씩 최대 5번 조회한 뒤
+   하나의 XML로 합친다.
+========================================= */
+
+async function handleMartSitemap(
+  req,
+  res
+) {
+
+  res.setHeader(
+    "Content-Type",
+    "application/xml; charset=utf-8"
+  );
+
+  res.setHeader(
+    "Cache-Control",
+    "s-maxage=3600, stale-while-revalidate=86400"
+  );
+
+
+  if (
+    !SUPABASE_URL ||
+    !SUPABASE_KEY
+  ) {
+
+    res.statusCode = 500;
+
+    return res.end(
+      "Mart Supabase environment variable missing"
+    );
+  }
+
+
+  const page =
+    Math.max(
+      1,
+      parseInt(
+        req.query.page || "1",
+        10
+      )
+    );
+
+
+  const start =
+    (page - 1) *
+    PAGE_SIZE;
+
+
+  const end =
+    start +
+    PAGE_SIZE -
+    1;
+
+
+  try {
+
+    const params =
+      new URLSearchParams();
+
+
+    params.set(
+      "select",
+      "시도,시군구,읍면동,상호명,주소,전화번호"
+    );
+
+
+    params.set(
+      "order",
+      "시도.asc,시군구.asc,읍면동.asc,상호명.asc"
+    );
+
+
+    const apiUrl =
+      `${SUPABASE_URL}/rest/v1/mart_directory?${params.toString()}`;
+
+
+    const rows = [];
+
+
+    for (
+      let batchStart = start;
+      batchStart <= end;
+      batchStart += 1000
+    ) {
+
+      const batchEnd =
+        Math.min(
+          batchStart + 999,
+          end
+        );
+
+
+      const response =
+        await fetch(
+          apiUrl,
+          {
+            method:
+              "GET",
+
+            headers: {
+
+              apikey:
+                SUPABASE_KEY,
+
+              Authorization:
+                `Bearer ${SUPABASE_KEY}`,
+
+              Accept:
+                "application/json",
+
+              Range:
+                `${batchStart}-${batchEnd}`,
+
+              Prefer:
+                "count=exact"
+            }
+          }
+        );
+
+
+      if (!response.ok) {
+
+        const errorText =
+          await response.text();
+
+
+        throw new Error(
+          `Supabase request failed: ${response.status} ${errorText}`
+        );
+      }
+
+
+      const batchRows =
+        await response.json();
+
+
+      rows.push(
+        ...batchRows
+      );
+
+
+      if (
+        batchRows.length < 1000
+      ) {
+
+        break;
+      }
+    }
+
+
+    const urls =
+      rows
+
+        .filter(
+          row =>
+            row &&
+            row["시도"] &&
+            row["시군구"] &&
+            row["읍면동"] &&
+            row["상호명"]
+        )
+
+        .map(
+          row => {
+
+            const region =
+              encodePart(
+                row["시도"]
+              );
+
+            const city =
+              encodePart(
+                row["시군구"]
+              );
+
+            const place =
+              encodePart(
+                row["읍면동"]
+              );
+
+            const mart =
+              encodePart(
+                row["상호명"]
+              );
+
+
+            const loc =
+              `${BASE_URL}/mart-search/${region}/${city}/${place}/${mart}`;
+
+
+            return (
+`
+  <url>
+    <loc>${xmlEscape(loc)}</loc>
+  </url>`
+            );
+          }
+        )
+
+        .join("");
+
+
+    const xml =
+`<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
+</urlset>`;
+
+
+    res.statusCode = 200;
+
+
+    return res.end(xml);
+
+
+  } catch (error) {
+
+    console.error(
+      "MART SITEMAP ERROR:",
+      error
+    );
+
+
+    res.statusCode = 500;
+
+
+    res.setHeader(
+      "Cache-Control",
+      "no-store"
+    );
+
+
+    return res.end(
+      `Mart sitemap error: ${String(
+        error.message ||
+        error
+      )}`
+    );
+  }
+}
+
+
+/* =========================================
+   통합 HANDLER
+========================================= */
+
+module.exports =
+async function handler(
+  req,
+  res
+) {
+
+  const mode =
+    String(
+      req.query.mode ||
+      "mart-page"
+    ).trim();
+
+
+  /* =========================================
+     네이버 IndexNow
+  ========================================= */
+
+  if (
+    mode === "indexnow"
+  ) {
+
+    if (
+      req.method === "GET"
+    ) {
+      return res
+        .status(200)
+        .json({
+          ok: true,
+
+          message:
+            "Naver IndexNow API ready",
+
+          host:
+            INDEXNOW_HOST,
+
+          keyLocation:
+            INDEXNOW_KEY_LOCATION
+        });
+    }
+
+
+    if (
+      req.method !== "POST"
+    ) {
+      return res
+        .status(405)
+        .json({
+          ok: false,
+
+          error:
+            "Method Not Allowed"
+        });
+    }
+
+
+    try {
+
+      const body =
+        req.body || {};
+
+
+      const urls =
+        body.urls ||
+        body.urlList ||
+        [];
+
+
+      const result =
+        await submitIndexNow(
+          urls
+        );
+
+
+      if (!result.ok) {
+
+        const status =
+          result.naverStatus ||
+          400;
+
+
+        return res
+          .status(status)
+          .json(result);
+      }
+
+
+      return res
+        .status(200)
+        .json(result);
+
+
+    } catch (error) {
+
+      console.error(
+        "INDEXNOW ERROR:",
+        error
+      );
+
+
+      return res
+        .status(500)
+        .json({
+          ok: false,
+
+          error:
+            error.message
+        });
+    }
+  }
+
+
+  if (
+    req.method !== "GET"
+  ) {
+
+    res.statusCode = 405;
+
+    return res.end(
+      "Method Not Allowed"
+    );
+  }
+
+
+  if (
+    mode ===
+    "mart-search"
+  ) {
+
+    return handleMartSearch(
+      req,
+      res
+    );
+  }
+
+
+  if (
+    mode ===
+    "mart-db-test"
+  ) {
+
+    return handleMartDbTest(
+      req,
+      res
+    );
+  }
+
+
+  if (
+    mode ===
+    "mart-sitemap"
+  ) {
+
+    return handleMartSitemap(
+      req,
+      res
+    );
+  }
+
+
+  if (
+    mode ===
+    "mart-sitemap-index"
+  ) {
+
+    return handleMartSitemapIndex(
+      req,
+      res
+    );
+  }
+
+
+  return handleMartPage(
+    req,
+    res
+  );
+};
