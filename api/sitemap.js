@@ -9,7 +9,7 @@ const SUPABASE_KEY =
 const SITE_ORIGIN =
   "https://www.wooriapt.app";
 
-const ROWS_PER_SITEMAP = 1000;
+const ROWS_PER_SITEMAP = 5000;
 
 
 module.exports = async function handler(req, res) {
