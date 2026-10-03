@@ -102,7 +102,7 @@
   ],
   "crons": [
     {
-      "path": "/api/auto-seo",
+      "path": "/api/sitemap",
       "schedule": "0 0 * * *"
     }
   ]
